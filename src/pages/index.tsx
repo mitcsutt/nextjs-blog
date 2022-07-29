@@ -1,8 +1,8 @@
-import Layout from '../components/layout/Layout';
-import utilStyles from '../styles/utils.module.scss';
-import { getSortedPostsData, Post } from '../lib/posts';
+import Layout from 'components/layout/Layout';
+import utilStyles from 'styles/utils.module.scss';
+import { getSortedPostsData, Post } from 'lib/posts';
 import Link from 'next/link';
-import Date from '../components/date/Date';
+import Date from 'components/date/Date';
 
 interface HomeProps {
   allPostsData: Post[]

@@ -1,8 +1,8 @@
-import Layout from '../../components/layout/Layout';
-import { getAllPostIds, getPostData, Post as PostType } from '../../lib/posts';
+import Layout from 'components/layout/Layout';
+import { getAllPostIds, getPostData, Post as PostType } from 'lib/posts';
 import Head from 'next/head';
-import Date from '../../components/date/Date';
-import utilStyles from '../../styles/utils.module.scss';
+import Date from 'components/date/Date';
+import utilStyles from 'styles/utils.module.scss';
 
 interface PostProps {
 	postData: PostType
