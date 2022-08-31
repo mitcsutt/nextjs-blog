@@ -9,7 +9,19 @@ interface HomeProps {
   allPostsData: Post[]
 }
 
+const staticPosts: Post[] = [
+  {
+    id: 'first-post',
+    date: '2020-01-01',
+    title: 'First Post'
+  }
+]
+
 export default ({ allPostsData }: HomeProps) => {
+  const posts = [
+    ...staticPosts,
+    ...allPostsData,
+  ]
   return (
     <Layout home>
       {/* Keep the existing code here */}
@@ -18,7 +30,7 @@ export default ({ allPostsData }: HomeProps) => {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
+          {posts.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
               <Link href={`/posts/${id}`}>
                 <a>{title}</a>
