@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = async function(knex) {
-	await knex.schema.createTable('blogs', (table) => {
+	await knex.schema.createTable('posts', (table) => {
     table.increments('id')
     table.string('title').notNullable()
     table.text('contents', 'longtext').notNullable()
@@ -16,5 +16,5 @@ exports.up = async function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = async function(knex) {
-	await knex.raw('DROP TABLE blogs CASCADE')
+	await knex.raw('DROP TABLE posts CASCADE')
 };

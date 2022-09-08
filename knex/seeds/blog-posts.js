@@ -4,8 +4,8 @@
  */
 exports.seed = async function(knex) {
   // Deletes ALL existing entries
-  await knex('blogs').del()
-  await knex('blogs').insert([
+  await knex('posts').del()
+  await knex('posts').insert([
     { 
       title: 'Two Forms of Pre-rendering', 
       contents: 
