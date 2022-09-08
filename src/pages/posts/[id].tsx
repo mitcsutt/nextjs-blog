@@ -29,21 +29,43 @@ export default function Post({ postData }: PostProps) {
   );
 }
 
-export async function getStaticPaths() {
-  const knex = getKnex()
-  const paths = await knex('posts').then(results => results.map(post => ({
-    params: {
-      id: post.id.toString(),
-    }
-  })))
+// export async function getStaticPaths() {
+//   const knex = getKnex()
+//   const paths = await knex('posts').then(results => results.map(post => ({
+//     params: {
+//       id: post.id.toString(),
+//     }
+//   })))
 
-  return {
-    paths,
-    fallback: false,
-  };
-}
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
 
-export async function getStaticProps({ params }) {
+// export async function getStaticProps({ params }) {
+//   const knex = getKnex()
+//   const post = await knex('posts')
+//     .where('id', params.id)
+//     .first()
+
+//   const matterResult = matter(post.contents);
+//   const contents = await remark()
+//     .use(html)
+//     .process(matterResult.content)
+//     .then(result => result.toString())
+
+//   return {
+//     props: {
+//       postData: {
+//         ...post,
+//         contents,
+//       }
+//     },
+//   };
+// }
+
+export async function getServerSideProps({ params }) {
   const knex = getKnex()
   const post = await knex('posts')
     .where('id', params.id)

@@ -14,10 +14,10 @@ const config = {
       database : PG_DATABASE
     },
     migrations: {
-      directory: './api/migrations',
+      directory: './knex/migrations',
     },
     seeds: {
-      directory: './api/seeds',
+      directory: './knex/seeds',
     },
 };
 
