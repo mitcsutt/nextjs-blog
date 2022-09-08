@@ -64,3 +64,25 @@ export async function getStaticProps({ params }) {
     },
   };
 }
+
+// export async function getServerSideProps({ params }) {
+//   const knex = getKnex()
+//   const post = await knex('posts')
+//     .where('id', params.id)
+//     .first()
+
+//   const matterResult = matter(post.contents);
+//   const contents = await remark()
+//     .use(html)
+//     .process(matterResult.content)
+//     .then(result => result.toString())
+
+//   return {
+//     props: {
+//       postData: {
+//         ...post,
+//         contents,
+//       }
+//     },
+//   };
+// }

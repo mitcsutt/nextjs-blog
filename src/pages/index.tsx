@@ -44,7 +44,7 @@ export default ({ allPostsData }: HomeProps) => {
   );
 }
 
-export const getStaticProps:  GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const knex = getKnex()
   const allPostsData = await knex('posts')
 
