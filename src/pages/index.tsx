@@ -1,27 +1,32 @@
 import Layout from 'components/layout/Layout';
 import utilStyles from 'styles/utils.module.scss';
-import { getSortedPostsData, Post } from 'lib/posts';
 import Link from 'next/link';
 import Date from 'components/date/Date';
 import { GetStaticProps } from 'next';
+import getKnex from 'getKnex'
+import Post from 'models/post';
+
+type HomePost = Omit<Post, "contents">
 
 interface HomeProps {
-  allPostsData: Post[]
+  allPostsData: HomePost[]
 }
 
-const staticPosts: Post[] = [
-  {
-    id: 'first-post',
-    date: '2020-01-01',
-    title: 'First Post'
-  }
-]
+const MenuItem = ({ route, title, date}: {route: string, title: string, date?: Date}) => (
+  <li className={utilStyles.listItem} key={route}>
+    <Link href={route}>
+      <a>{title}</a>
+    </Link>
+    <br />
+    {date && 
+      <small className={utilStyles.lightText}>
+        <Date date={date} />
+      </small>
+    }
+  </li>
+)
 
 export default ({ allPostsData }: HomeProps) => {
-  const posts = [
-    ...staticPosts,
-    ...allPostsData,
-  ]
   return (
     <Layout home>
       {/* Keep the existing code here */}
@@ -30,25 +35,19 @@ export default ({ allPostsData }: HomeProps) => {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {posts.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
+          <MenuItem route={'posts/create'} title={'Create Post'} />
+          <MenuItem route={'todo'} title={'Todo'} />
+          {allPostsData.map(({ id, title, date }) => <MenuItem key={id} route={`posts/${id.toString()}`} title={title} date={date} />)}
         </ul>
       </section>
     </Layout>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const allPostsData = getSortedPostsData();
+export const getStaticProps:  GetStaticProps = async () => {
+  const knex = getKnex()
+  const allPostsData = await knex('posts')
+
   return {
     props: {
       allPostsData,
