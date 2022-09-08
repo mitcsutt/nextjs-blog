@@ -3,7 +3,7 @@ import utilStyles from 'styles/utils.module.scss';
 import Link from 'next/link';
 import Date from 'components/date/Date';
 import { GetStaticProps } from 'next';
-import { getKnex } from '../../knex'
+import getKnex from 'getKnex'
 import Post from 'models/post';
 
 type HomePost = Omit<Post, "contents">
@@ -12,6 +12,19 @@ interface HomeProps {
   allPostsData: HomePost[]
 }
 
+const MenuItem = ({ route, title, date}: {route: string, title: string, date?: Date}) => (
+  <li className={utilStyles.listItem} key={route}>
+    <Link href={route}>
+      <a>{title}</a>
+    </Link>
+    <br />
+    {date && 
+      <small className={utilStyles.lightText}>
+        <Date date={date} />
+      </small>
+    }
+  </li>
+)
 
 export default ({ allPostsData }: HomeProps) => {
   return (
@@ -22,17 +35,9 @@ export default ({ allPostsData }: HomeProps) => {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id.toString()}`}>
-                <a>{title}</a>
-              </Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date date={date} />
-              </small>
-            </li>
-          ))}
+          <MenuItem route={'posts/create'} title={'Create Post'} />
+          <MenuItem route={'todo'} title={'Todo'} />
+          {allPostsData.map(({ id, title, date }) => <MenuItem key={id} route={`posts/${id.toString()}`} title={title} date={date} />)}
         </ul>
       </section>
     </Layout>

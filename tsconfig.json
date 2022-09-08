@@ -20,7 +20,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
-      "models/*": ["../knex/models/*"]
+      "models/*": ["../knex/models/*"],
+      "getKnex": ["../knex/index.ts"],
     },
     "typeRoots": ["./node_modules/@types"]
   },

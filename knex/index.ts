@@ -11,9 +11,11 @@ import config from '../knexfile.js'
 let cached = global.pg
 if (!cached) cached = global.pg = {}
 
-export const getKnex = <TRecord extends {} = any, TResult = unknown[]>() => {
+const getKnex = <TRecord extends {} = any, TResult = unknown[]>() => {
   if (!cached.instance) {
     cached.instance = knex<TRecord, TResult>(config)
   }
   return cached.instance as Knex<TRecord, TResult>
 }
+
+export default getKnex

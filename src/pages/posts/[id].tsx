@@ -2,7 +2,7 @@ import Layout from 'components/layout/Layout';
 import Head from 'next/head';
 import Date from 'components/date/Date';
 import utilStyles from 'styles/utils.module.scss';
-import { getKnex } from '../../../knex';
+import getKnex from 'getKnex';
 import PostType from 'models/post';
 import matter from 'gray-matter';
 import { remark } from 'remark';

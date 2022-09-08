@@ -1,4 +1,5 @@
 import Post from 'models/post'
+import Todo from 'models/todo';
 
 declare module 'knex/types/tables' {
   interface User {
@@ -10,5 +11,6 @@ declare module 'knex/types/tables' {
   
   interface Tables {
     posts: Post;
+    todos: Todo;
   }
 }
