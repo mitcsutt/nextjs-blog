@@ -5,6 +5,9 @@ import Date from 'components/date/Date';
 import { GetStaticProps } from 'next';
 import getKnex from 'getKnex'
 import Post from 'models/post';
+import Image from 'next/image'
+import michael from '../../public/images/michael.jpeg'
+
 
 type HomePost = Omit<Post, "contents">
 
@@ -40,6 +43,12 @@ export default ({ allPostsData }: HomeProps) => {
           {allPostsData.map(({ id, title, date }) => <MenuItem key={id} route={`posts/${id.toString()}`} title={title} date={date} />)}
         </ul>
       </section>
+      <div style={{ marginBottom: "200px "}} />
+      {/* <Image 
+        src={michael}
+        layout="fill"
+      /> */}
+
     </Layout>
   );
 }
