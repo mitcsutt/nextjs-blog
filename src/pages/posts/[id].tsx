@@ -29,21 +29,21 @@ export default function Post({ postData }: PostProps) {
   );
 }
 
-export async function getStaticPaths() {
-  const knex = getKnex()
-  const paths = await knex('posts').then(results => results.map(post => ({
-    params: {
-      id: post.id.toString(),
-    }
-  })))
+// export async function getStaticPaths() {
+//   const knex = getKnex()
+//   const paths = await knex('posts').then(results => results.map(post => ({
+//     params: {
+//       id: post.id.toString(),
+//     }
+//   })))
 
-  return {
-    paths,
-    fallback: false,
-  };
-}
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const knex = getKnex()
   const post = await knex('posts')
     .where('id', params.id)
