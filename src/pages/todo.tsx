@@ -3,27 +3,28 @@ import Head from 'next/head'
 import Todo from 'models/todo'
 import Layout from 'components/layout/Layout'
 import { useForm } from 'react-hook-form'
+import useSwr from 'swr'
 
 interface FormFields {
 	todo: string
 }
 
+const fetchTodos = async(path: string) => {
+	const resp = await fetch(path, {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	})
+	return await resp.json()
+}
+
 export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>()
 	const { register, handleSubmit } = useForm<FormFields>({ defaultValues: { todo: '' }})
 
-	const fetchTodos = useCallback(async() => {
-		const resp = await fetch('/api/todos', {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
-		const data = await resp.json()
-		setTodos(data)
-	}, [])
+	const { data: todos, isValidating, mutate } = useSwr<Todo[]>('/api/todos', fetchTodos)
 
 	const addTodo = useCallback(async({ todo }: FormFields) => {
-		const resp = await fetch(
+		await fetch(
 			'/api/todos',
 			{ 
 				method: 'POST', 
@@ -33,19 +34,14 @@ export default function Home() {
         }
 			}
 		)
-		console.log(resp)
-		// setTodos(data)
+		mutate()
 	}, [])
 
-	const toggleTodo = useCallback(async(id: number, complete: boolean) => {
-		const resp = await fetch('/api/todos')
-		const data = await resp.json()
-		setTodos(data)
-	}, [])
-
-  useEffect(() => {
-    fetchTodos()
-  }, [])
+	// const toggleTodo = useCallback(async(id: number, complete: boolean) => {
+	// 	const resp = await fetch('/api/todos')
+	// 	const data = await resp.json()
+	// 	setTodos(data)
+	// }, [])
 
   return (
 		<Layout>
@@ -60,7 +56,7 @@ export default function Home() {
 						Welcome to a super cool Todo list
 					</h1>
 
-					{!todos && <p className="todos-loading">Todos loading...</p>}
+					{isValidating && <p className="todos-loading">Todos loading...</p>}
 					{todos &&
 						todos.map((todo) => {
 							return (
